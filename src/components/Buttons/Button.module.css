@@ -1,0 +1,15 @@
+.button {
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+  margin: 5px;
+  color: #000;
+}
+
+.primary {
+  background-color: #0612f8;
+}
+
+.secondary {
+  background-color: #f4f808;
+}
