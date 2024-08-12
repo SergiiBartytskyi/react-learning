@@ -44,29 +44,51 @@ import stats from "../../stats.json";
 //   );
 // };
 
+// const App = () => {
+//   const [contentType, setContentType] = useState(null);
+//   const [now, setNow] = useState(new Date());
+
+//   console.log("App Component render");
+
+//   function handlerClick(type) {
+//     setContentType(type);
+//     console.log(contentType);
+//   }
+
+//   // setInterval(() => setNow(new Date()), 1000);
+//   return (
+//     <>
+//       <div>Time now: {now.toLocaleTimeString()}</div>
+//       <br />
+//       <Button onClick={() => handlerClick("1")}>Click</Button>
+//       <Button onClick={() => handlerClick("2")}>Click</Button>
+//       <Button onClick={() => handlerClick("3")}>Click</Button>
+//       <Button onClick={() => handlerClick("4")}>Click</Button>
+
+//       {!contentType && <p>Click on the button</p>}
+//       {contentType && <p>{stats[contentType]}</p>}
+//     </>
+//   );
+// };
+
+// ClickCounter отримує функцію onUpdate (ім'я пропа),
+// яка викликається під час події onClick
+const ClickCounter = () => {
+  const [clicks, setClicks] = useState(0);
+
+  // Функція, яку будемо передавати в ClickCounter
+  // для виклику під час кліку
+  const handleClick = () => {
+    setClicks(clicks + 1);
+  };
+  return <button onClick={handleClick}>Current: {clicks}</button>;
+};
+
 const App = () => {
-  const [contentType, setContentType] = useState(null);
-  const [now, setNow] = useState(new Date());
-
-  console.log("App Component render");
-
-  function handlerClick(type) {
-    setContentType(type);
-    console.log(contentType);
-  }
-
-  // setInterval(() => setNow(new Date()), 1000);
   return (
     <>
-      <div>Time now: {now.toLocaleTimeString()}</div>
-      <br />
-      <Button onClick={() => handlerClick("1")}>Click</Button>
-      <Button onClick={() => handlerClick("2")}>Click</Button>
-      <Button onClick={() => handlerClick("3")}>Click</Button>
-      <Button onClick={() => handlerClick("4")}>Click</Button>
-
-      {!contentType && <p>Click on the button</p>}
-      {contentType && <p>{stats[contentType]}</p>}
+      <ClickCounter />
+      <ClickCounter />
     </>
   );
 };
