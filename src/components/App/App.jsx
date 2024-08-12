@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import Button from "../Button/Button";
+import stats from "../../stats.json";
 
 // export default function App() {
 //   return (
@@ -10,35 +12,62 @@ import "./App.css";
 //   );
 // }
 
+// const App = () => {
+//   const [values, setValues] = useState({
+//     x: 0,
+//     y: 0,
+//   });
+
+//   const updateX = () => {
+//     setValues({
+//       ...values,
+//       x: values.x + 1,
+//     });
+//   };
+
+//   const updateY = () => {
+//     setValues({
+//       ...values,
+//       y: values.y + 1,
+//     });
+//   };
+
+//   return (
+//     <div>
+//       <p>
+//         x: {values.x}, y: {values.y}
+//       </p>
+
+//       <button onClick={updateX}>Update x</button>
+//       <button onClick={updateY}>Update y</button>
+//     </div>
+//   );
+// };
+
 const App = () => {
-  const [values, setValues] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [contentType, setContentType] = useState(null);
+  const [now, setNow] = useState(new Date());
 
-  const updateX = () => {
-    setValues({
-      ...values,
-      x: values.x + 1,
-    });
-  };
+  console.log("App Component render");
 
-  const updateY = () => {
-    setValues({
-      ...values,
-      y: values.y + 1,
-    });
-  };
+  function handlerClick(type) {
+    setContentType(type);
+    console.log(contentType);
+  }
 
+  // setInterval(() => setNow(new Date()), 1000);
   return (
-    <div>
-      <p>
-        x: {values.x}, y: {values.y}
-      </p>
+    <>
+      <div>Time now: {now.toLocaleTimeString()}</div>
+      <br />
+      <Button onClick={() => handlerClick("1")}>Click</Button>
+      <Button onClick={() => handlerClick("2")}>Click</Button>
+      <Button onClick={() => handlerClick("3")}>Click</Button>
+      <Button onClick={() => handlerClick("4")}>Click</Button>
 
-      <button onClick={updateX}>Update x</button>
-      <button onClick={updateY}>Update y</button>
-    </div>
+      {!contentType && <p>Click on the button</p>}
+      {contentType && <p>{stats[contentType]}</p>}
+    </>
   );
 };
 
