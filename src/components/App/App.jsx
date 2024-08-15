@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+import Sidebar from "../Sidebar/Sidebar";
+import Reader from "../Reader/Reader";
+import articles from "../../articles.json";
+import css from "./App.module.css";
 // import articles from "../../../articles.json";
 // import Reader from "../Reader/Reader";
 // import Button from "../Button/Button";
@@ -233,25 +236,62 @@ import "./App.css";
 // };
 
 // *************** Читання ********************
+// const App = () => {
+//   const [clicks, setClicks] = useState(() => {
+//     const savedClicks = window.localStorage.getItem("saved-clicks");
+//     if (savedClicks !== null) {
+//       return savedClicks;
+//     }
+//     return 0;
+//   });
+
+//   useEffect(() => {
+//     window.localStorage.setItem("saved-clicks", clicks);
+//   }, [clicks]);
+
+//   return (
+//     <div>
+//       <button onClick={() => setClicks(clicks + 1)}>
+//         You clicked {clicks} times
+//       </button>
+//       <button onClick={() => setClicks(0)}>Reset</button>
+//     </div>
+//   );
+// };
+
+// export default App;
+// *************** Sidebar ********************
+
 const App = () => {
-  const [clicks, setClicks] = useState(() => {
-    const savedClicks = window.localStorage.getItem("saved-clicks");
-    if (savedClicks !== null) {
-      return savedClicks;
-    }
-    return 0;
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    const isOpen = window.localStorage.getItem("is-sb-op");
+    console.log(isOpen);
+    return isOpen !== null ? JSON.parse(isOpen) : false;
   });
 
-  useEffect(() => {
-    window.localStorage.setItem("saved-clicks", clicks);
-  }, [clicks]);
+  const openSidebar = () => setIsSidebarOpen(true);
 
+  const closeSidebar = () => setIsSidebarOpen(false);
+
+  const [clicks, setClicks] = useState(0);
+  const color = clicks % 5 === 0 ? "orangered" : "skyblue";
+
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
+  }, [color]);
+
+  useEffect(() => {
+    window.localStorage.setItem("is-sb-op", JSON.stringify(isSidebarOpen));
+  }, [isSidebarOpen]);
   return (
-    <div>
-      <button onClick={() => setClicks(clicks + 1)}>
-        You clicked {clicks} times
-      </button>
-      <button onClick={() => setClicks(0)}>Reset</button>
+    <div className={css.container}>
+      <h1>Effects in React</h1>
+      <button onClick={() => setClicks(clicks + 1)}>Clicks {clicks}</button>
+
+      <button onClick={openSidebar}>Open sidebar</button>
+      {isSidebarOpen && <Sidebar onClose={closeSidebar} />}
+
+      <Reader items={articles} />
     </div>
   );
 };

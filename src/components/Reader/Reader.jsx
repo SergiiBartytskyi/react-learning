@@ -1,26 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import css from "./Reader.module.css";
+
+const getInitialIndex = () => {
+  const savedIndex = window.localStorage.getItem("article-idx");
+  return savedIndex !== null ? JSON.parse(savedIndex) : 0;
+};
 
 export default function Reader({ items }) {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(getInitialIndex);
 
-  function handlerPrev() {
+  useEffect(() => {
+    window.localStorage.setItem("article-idx", JSON.stringify(index));
+  }, [index]);
+
+  const handlePrev = () => {
     setIndex(index - 1);
-  }
-  function handlerNext() {
+  };
+
+  const handleNext = () => {
     setIndex(index + 1);
-  }
+  };
 
   const currentItem = items[index];
-  const isBeggin = index === 0;
-  const isEnd = index === items.length - 1;
+  const isFirst = index === 0;
+  const isLast = index === items.length - 1;
+
   return (
-    <>
-      <header>
+    <div>
+      <header className={css.header}>
         <div>
-          <button onClick={handlerPrev} disabled={isBeggin}>
+          <button onClick={handlePrev} disabled={isFirst}>
             Prev
           </button>
-          <button onClick={handlerNext} disabled={isEnd}>
+          <button onClick={handleNext} disabled={isLast}>
             Next
           </button>
         </div>
@@ -28,10 +40,11 @@ export default function Reader({ items }) {
           {index + 1}/{items.length}
         </p>
       </header>
+
       <article>
         <h2>{currentItem.topic}</h2>
         <p>{currentItem.text}</p>
       </article>
-    </>
+    </div>
   );
 }
